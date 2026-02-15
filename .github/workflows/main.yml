@@ -1,0 +1,61 @@
+name: Build Froggy Risiko Plugin
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Build with Maven
+      run: mvn clean package
+      
+    - name: Upload Plugin JAR
+      uses: actions/upload-artifact@v4
+      with:
+        name: FroggyRisiko-Plugin
+        path: target/FroggyRisiko-*.jar
+        
+    - name: Create Release
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: target/FroggyRisiko-*.jar
+        tag_name: v1.0.0
+        name: Froggy Risiko v1.0.0
+        body: |
+          ## 🐸 Froggy Risiko Plugin v1.0.0
+          
+          ### Features:
+          - ✅ Automatisches 2-Wochen-Season-System
+          - ✅ 5 Teams mit je 10 Spielern
+          - ✅ Frosch-Herzen zwischen Herzen und Hunger
+          - ✅ Chat mit grünem Farbverlauf
+          - ✅ König-System mit doppelten Herzen
+          
+          ### Installation:
+          1. Lade FroggyRisiko-1.0.0.jar herunter
+          2. Kopiere in plugins/ Ordner
+          3. Server starten (Spigot/Paper 1.21.4+)
+          4. /frisiko start
+          
+          Viel Spaß! 🎮
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
