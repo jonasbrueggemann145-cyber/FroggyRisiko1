@@ -1,0 +1,23 @@
+name: FroggyRisiko
+version: 1.0.0
+main: de.froggyrisiko.FroggyRisikoPlugin
+api-version: 1.21
+author: FroggyRisiko Team
+description: Ein Roleplay-PvP-Projekt mit Teams, Königreichen und strategischem Gameplay
+
+commands:
+  frisiko:
+    description: Hauptbefehl für Froggy Risiko
+    usage: /frisiko <help|start|reset|team|king|general|status>
+    aliases: [fr, froggy]
+  
+permissions:
+  froggyrisiko.admin:
+    description: Alle Admin-Befehle
+    default: op
+  froggyrisiko.king:
+    description: König-Spezifische Befehle
+    default: false
+  froggyrisiko.general:
+    description: General-Spezifische Befehle
+    default: false
